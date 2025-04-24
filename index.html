@@ -2,42 +2,46 @@
 <html>
 <head>
     <title>Fyers Login</title>
-    <!-- Official Fyers SDK -->
-    <script src="https://cdn.fyers.in/sdk/web/fyers-ssa-v3.min.js"></script>
+    <!-- Correct Fyers SDK URL -->
+    <script src="https://cdn.fyers.in/fyers-auth/fyers-auth.prod.js"></script>
 </head>
 <body>
     <h2>Login to FYERS</h2>
     <button onclick="fyersLogin()">Login with Fyers</button>
 
     <script>
-        // Generate random state for security
         function generateRandomString(length = 15) {
-            return Math.random().toString(36).substr(2, length);
+            return Math.random().toString(36).substring(2, length);
         }
 
         async function fyersLogin() {
             try {
+                // Verify SDK loaded properly
+                if(!window.FyersAuth) {
+                    throw new Error('Fyers SDK not loaded! Check network tab');
+                }
+
                 const config = {
                     client_id: "O0P41O9GM2-100",
+                    secret_id: "9J9W9A9MQF", // Never expose this in production!
                     redirect_uri: "https://ajay123400.github.io/fyers-login/",
                     response_type: "code",
                     state: generateRandomString(),
-                    scope: "profile trade",
-                    nonce: generateRandomString()
+                    scope: "profile trade"
                 };
 
-                // Initialize Fyers Auth V2
-                const fyersAuth = new FyersAuthV2();
+                // Initialize with correct version
+                const fyers = new FyersAuth.v2();
                 
-                // Generate authorization URL
-                const authUrl = await fyersAuth.generateAuthUrl(config);
+                // Generate auth URL
+                const authUrl = await fyers.generateAuthUrl(config);
                 
-                // Redirect to Fyers login
+                // Redirect to Fyers
                 window.location.href = authUrl;
 
             } catch (error) {
                 console.error('Login Error:', error);
-                alert('Login failed! Check console for details.');
+                alert('Error: ' + error.message);
             }
         }
     </script>
