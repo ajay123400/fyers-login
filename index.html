@@ -2,33 +2,34 @@
 <html>
 <head>
     <title>Fyers Login</title>
-    <!-- FYERS Web SDK -->
-    <script src="https://unpkg.com/fyers-web-sdk"></script>
+    <!-- Updated FYERS Web SDK URL -->
+    <script src="https://cdn.fyers.in/sdk/web/fyers-ssa-v3.min.js"></script>
 </head>
 <body>
     <h2>Login to FYERS</h2>
     <button onclick="fyersLogin()">Login with Fyers</button>
 
     <script>
-        // Ensure that the SDK is loaded before using it
-        document.addEventListener('DOMContentLoaded', function () {
-            console.log('FYERS Web SDK loaded');
-        });
-
         function fyersLogin() {
-            // Ensure that the Fyers SDK is loaded and available
-            if (window.Fyers) {
-                const config = {
-                    client_id: "O0P41O9GM2-100",
-                    redirect_uri: "https://ajay123400.github.io/fyers-login/",
-                    response_type: "code",
-                    state: "anything",
-                    scope: ""
-                };
-                // Open login window
-                window.location.href = window.Fyers.launch(config);
+            // Configuration parameters
+            const config = {
+                client_id: "O0P41O9GM2-100", // Replace with your actual client ID
+                redirect_uri: "https://ajay123400.github.io/fyers-login/", // Registered redirect URL
+                response_type: "code",
+                state: "random_state_123", // Recommended to use a random string
+                scope: "profile trade", // Add required scopes
+                // SDK will automatically generate code_challenge if not provided
+            };
+
+            // Initialize FYERS SDK
+            Fyers.initialize(config);
+            
+            // Generate and redirect to authentication URL
+            const authUrl = Fyers.getAuthUrl();
+            if (authUrl) {
+                window.location.href = authUrl;
             } else {
-                console.error('Fyers Web SDK is not loaded');
+                console.error('Failed to generate authentication URL');
             }
         }
     </script>
