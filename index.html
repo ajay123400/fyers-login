@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>Fyers Login</title>
-    <!-- Updated FYERS Web SDK URL -->
+    <!-- Official Fyers SDK -->
     <script src="https://cdn.fyers.in/sdk/web/fyers-ssa-v3.min.js"></script>
 </head>
 <body>
@@ -11,25 +11,24 @@
 
     <script>
         function fyersLogin() {
-            // Configuration parameters
-            const config = {
-                client_id: "O0P41O9GM2-100", // Replace with your actual client ID
-                redirect_uri: "https://ajay123400.github.io/fyers-login/", // Registered redirect URL
-                response_type: "code",
-                state: "random_state_123", // Recommended to use a random string
-                scope: "profile trade", // Add required scopes
-                // SDK will automatically generate code_challenge if not provided
-            };
+            try {
+                const config = {
+                    client_id: "O0P41O9GM2-100",  // अपना client ID डालें
+                    redirect_uri: "https://ajay123400.github.io/fyers-login/", 
+                    response_type: "code",
+                    state: "random123",
+                    scope: "profile trade"
+                };
 
-            // Initialize FYERS SDK
-            Fyers.initialize(config);
-            
-            // Generate and redirect to authentication URL
-            const authUrl = Fyers.getAuthUrl();
-            if (authUrl) {
-                window.location.href = authUrl;
-            } else {
-                console.error('Failed to generate authentication URL');
+                // Fyers Auth object बनाएं
+                const fyersAuth = new FyersAuth(config);
+                
+                // Redirect to authorization URL
+                fyersAuth.redirect();
+                
+            } catch (error) {
+                console.error('Login Error:', error);
+                alert('Login failed! Check console for details.');
             }
         }
     </script>
