@@ -10,22 +10,31 @@
     <button onclick="fyersLogin()">Login with Fyers</button>
 
     <script>
-        function fyersLogin() {
+        // Generate random state for security
+        function generateRandomString(length = 15) {
+            return Math.random().toString(36).substr(2, length);
+        }
+
+        async function fyersLogin() {
             try {
                 const config = {
-                    client_id: "O0P41O9GM2-100",  // अपना client ID डालें
-                    redirect_uri: "https://ajay123400.github.io/fyers-login/", 
+                    client_id: "O0P41O9GM2-100",
+                    redirect_uri: "https://ajay123400.github.io/fyers-login/",
                     response_type: "code",
-                    state: "random123",
-                    scope: "profile trade"
+                    state: generateRandomString(),
+                    scope: "profile trade",
+                    nonce: generateRandomString()
                 };
 
-                // Fyers Auth object बनाएं
-                const fyersAuth = new FyersAuth(config);
+                // Initialize Fyers Auth V2
+                const fyersAuth = new FyersAuthV2();
                 
-                // Redirect to authorization URL
-                fyersAuth.redirect();
+                // Generate authorization URL
+                const authUrl = await fyersAuth.generateAuthUrl(config);
                 
+                // Redirect to Fyers login
+                window.location.href = authUrl;
+
             } catch (error) {
                 console.error('Login Error:', error);
                 alert('Login failed! Check console for details.');
