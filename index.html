@@ -2,46 +2,29 @@
 <html>
 <head>
     <title>Fyers Login</title>
-    <!-- Correct Fyers SDK URL -->
-    <script src="https://cdn.fyers.in/fyers-auth/fyers-auth.prod.js"></script>
+    <script src="https://unpkg.com/fyers-web-sdk@latest"></script>
 </head>
 <body>
     <h2>Login to FYERS</h2>
     <button onclick="fyersLogin()">Login with Fyers</button>
 
     <script>
-        function generateRandomString(length = 15) {
-            return Math.random().toString(36).substring(2, length);
-        }
-
-        async function fyersLogin() {
+        function fyersLogin() {
             try {
-                // Verify SDK loaded properly
-                if(!window.FyersAuth) {
-                    throw new Error('Fyers SDK not loaded! Check network tab');
+                if (window.Fyers && window.Fyers.launch) {
+                    const config = {
+                        client_id: "O0P41O9GM2-100",
+                        redirect_uri: "https://ajay123400.github.io/fyers-login/",
+                        response_type: "code",
+                        state: "xyz",
+                        scope: ""
+                    };
+                    window.location.href = window.Fyers.launch(config);
+                } else {
+                    console.error("FYERS SDK not loaded properly");
                 }
-
-                const config = {
-                    client_id: "O0P41O9GM2-100",
-                    secret_id: "9J9W9A9MQF", // Never expose this in production!
-                    redirect_uri: "https://ajay123400.github.io/fyers-login/",
-                    response_type: "code",
-                    state: generateRandomString(),
-                    scope: "profile trade"
-                };
-
-                // Initialize with correct version
-                const fyers = new FyersAuth.v2();
-                
-                // Generate auth URL
-                const authUrl = await fyers.generateAuthUrl(config);
-                
-                // Redirect to Fyers
-                window.location.href = authUrl;
-
-            } catch (error) {
-                console.error('Login Error:', error);
-                alert('Error: ' + error.message);
+            } catch (e) {
+                console.error("Login Error:", e);
             }
         }
     </script>
