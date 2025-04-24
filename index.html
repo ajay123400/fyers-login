@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Fyers Login</title>
+    <!-- FYERS SDK लोड करें -->
     <script src="https://unpkg.com/fyers-web-sdk@latest"></script>
 </head>
 <body>
@@ -11,6 +12,7 @@
     <script>
         function fyersLogin() {
             try {
+                // SDK और launch function चेक करें
                 if (window.Fyers && window.Fyers.launch) {
                     const config = {
                         client_id: "O0P41O9GM2-100",
@@ -19,7 +21,9 @@
                         state: "xyz",
                         scope: ""
                     };
-                    window.location.href = window.Fyers.launch(config);
+                    const url = window.Fyers.launch(config);
+                    console.log("Redirecting to FYERS login:", url);
+                    window.location.href = url;
                 } else {
                     console.error("FYERS SDK not loaded properly");
                 }
