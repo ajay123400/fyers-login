@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fyers Login</title>
+    <script src="https://unpkg.com/fyers-web-sdk"></script>
+</head>
+<body>
+    <h2>Login to FYERS</h2>
+    <button onclick="fyersLogin()">Login with Fyers</button>
+
+    <script>
+        function fyersLogin() {
+            const config = {
+                client_id: "O0P41O9GM2-100",
+                redirect_uri: "https://ajay123400.github.io/fyers-login/",
+                response_type: "code",
+                state: "anything",
+                scope: ""
+            };
+            window.location.href = window.Fyers.launch(config);
+        }
+    </script>
+</body>
+</html>
