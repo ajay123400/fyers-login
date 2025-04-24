@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Fyers Login</title>
+    <!-- FYERS Web SDK -->
     <script src="https://unpkg.com/fyers-web-sdk"></script>
 </head>
 <body>
@@ -9,15 +10,26 @@
     <button onclick="fyersLogin()">Login with Fyers</button>
 
     <script>
+        // Ensure that the SDK is loaded before using it
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('FYERS Web SDK loaded');
+        });
+
         function fyersLogin() {
-            const config = {
-                client_id: "O0P41O9GM2-100",
-                redirect_uri: "https://ajay123400.github.io/fyers-login/",
-                response_type: "code",
-                state: "anything",
-                scope: ""
-            };
-            window.location.href = window.Fyers.launch(config);
+            // Ensure that the Fyers SDK is loaded and available
+            if (window.Fyers) {
+                const config = {
+                    client_id: "O0P41O9GM2-100",
+                    redirect_uri: "https://ajay123400.github.io/fyers-login/",
+                    response_type: "code",
+                    state: "anything",
+                    scope: ""
+                };
+                // Open login window
+                window.location.href = window.Fyers.launch(config);
+            } else {
+                console.error('Fyers Web SDK is not loaded');
+            }
         }
     </script>
 </body>
